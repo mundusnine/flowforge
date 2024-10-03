@@ -1,0 +1,15 @@
+[submodule "Libraries/imgui"]
+	path = Libraries/imgui
+	url = https://github.com/ocornut/imgui.git
+[submodule "Libraries/raylib"]
+	path = Libraries/raylib
+	url = https://github.com/raysan5/raylib.git
+[submodule "Libraries/rlImGui"]
+	path = Libraries/rlImGui
+	url = https://github.com/raylib-extras/rlImGui.git
+[submodule "Tools/windows_x64"]
+	path = Tools/windows_x64
+	url = https://github.com/mundusnine/FoundryTools_windows_x64.git
+[submodule "Tools/linux_x64"]
+	path = Tools/linux_x64
+	url = https://github.com/mundusnine/FoundryTools_linux_x64.git
