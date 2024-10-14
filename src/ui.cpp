@@ -129,7 +129,7 @@ void ui_draw(UI_Data* data){
     ImGui::EndDisabled();
     ImGui::End();
     ImGui::Begin(WINDOW_2);
-    ShowExampleAppConsole(true);
+    ImGui::Text("This is a test");
     ImGui::End();
 
     rlImGuiEnd();
