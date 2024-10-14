@@ -1,0 +1,5 @@
+- [ ] Have draggable labels that can hold commands
+- [ ] Have created labels be able to generate C89 code
+- [ ] We need to be able to limit actions a specific exercice can do:
+    - e.g. if we have the kenny sokoban, we can only do advance ,right,left,etc.
+- [ ] Add imgui tests with [imgui_test_engine](https://github.com/ocornut/imgui_test_engine)

@@ -26,7 +26,6 @@ bool build_raylib(Knob_File_Paths* end_cmd,Knob_Config* config)
 {
     bool result = true;
     Knob_Cmd cmd = {0};
-    // Knob_File_Paths object_files = {0};
 
     if (!knob_mkdir_if_not_exists(RAYLIB_BUILD_PATH)) {
         knob_return_defer(false);
@@ -45,7 +44,16 @@ bool build_raylib(Knob_File_Paths* end_cmd,Knob_Config* config)
             knob_cmd_append(&cmd, compiler,compiler_names[config->compiler][1]);
             knob_cmd_append(&cmd, "--debug", "-std=c11", "-fno-sanitize=undefined","-fno-omit-frame-pointer");
             knob_cmd_append(&cmd, "-target");
+            #ifdef _WIN32
             knob_cmd_append(&cmd, "x86_64-windows");
+            #endif
+            #ifdef __linux__
+            knob_cmd_append(&cmd, "x86_64-linux-gnu");
+            knob_cmd_append(&cmd, "-D_GLFW_X11");
+            knob_cmd_append(&cmd, "-lX11");
+            knob_cmd_append(&cmd, "-I/usr/include");
+            knob_cmd_append(&cmd, "-L/usr/lib");
+            #endif
             knob_cmd_append(&cmd, "-DPLATFORM_DESKTOP","-fPIC");
             knob_cmd_append(&cmd, "-I"RAYLIB_PATH"/src/external/glfw/include");
             knob_cmd_append(&cmd, "-I"RAYLIB_PATH"/src");

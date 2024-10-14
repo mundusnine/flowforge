@@ -1651,14 +1651,22 @@ void knob_config_add_files(Knob_Config* config,const char* filepaths[],size_t le
 int knob_config_build(Knob_Config* config,Knob_File_Paths* outs,int debug){
     bool result = true;
     Knob_Cmd cmd = {0};
+    Knob_String_Builder sb_cmp = {0};
     Knob_Procs procs = {0};
 
     const char* filepath = NULL;
     const char* config_file = knob_temp_sprintf("%s"PATH_SEP"config.h",config->build_to);
     
-    char* compiler_pp = GET_COMPILERPP_NAME(config->compiler);
+    if(config->compiler_path[0] != '\0'){
+        if(knob_path_is_dir(config->compiler_path)){
+            knob_sb_append_cstr(&sb_cmp,config->compiler_path);
+        }
+        else {
+            knob_log(KNOB_ERROR,"Specified compiler path isn't a directory: %s", config->compiler_path);
+        }
+    }
+    knob_sb_append_cstr(&sb_cmp,compilerpp_names[config->compiler][0]);
     //@TODO: Add if to compiler_path when we have it
-    if
     for(int i =0; i < config->cpp_files.count;++i){
         cmd.count = 0;
         filepath = config->cpp_files.items[i];
@@ -1673,7 +1681,8 @@ int knob_config_build(Knob_Config* config,Knob_File_Paths* outs,int debug){
         }
         char* out = knob_temp_sprintf("%s"PATH_SEP"%s.o",config->build_to,sv.count > 0 ?  sv.data : filepath);
         if(knob_needs_rebuild1(out,filepath) || (knob_file_exists(config_file) && knob_needs_rebuild1(out,config_file))){
-            knob_cmd_append(&cmd,compiler_pp);
+            knob_cmd_append(&cmd,sb_cmp.items);
+            knob_cmd_append(&cmd,compilerpp_names[config->compiler][1]);
             if(config->debug_mode){
                 knob_cmd_append(&cmd, "-ggdb3");
             }
@@ -1696,6 +1705,17 @@ int knob_config_build(Knob_Config* config,Knob_File_Paths* outs,int debug){
         }
         knob_da_append(outs,out);
     }
+    memset(sb_cmp.items,0,sb_cmp.count);
+    sb_cmp.count =0;
+    if(config->compiler_path[0] != '\0'){
+        if(knob_path_is_dir(config->compiler_path)){
+            knob_sb_append_cstr(&sb_cmp,config->compiler_path);
+        }
+        else {
+            knob_log(KNOB_ERROR,"Specified compiler path isn't a directory: %s", config->compiler_path);
+        }
+    }
+    knob_sb_append_cstr(&sb_cmp,compiler_names[config->compiler][0]);
     for(int i =0; i < config->c_files.count;++i){
         cmd.count = 0;
         filepath = config->c_files.items[i];
@@ -1710,7 +1730,8 @@ int knob_config_build(Knob_Config* config,Knob_File_Paths* outs,int debug){
         }
         char* out = knob_temp_sprintf("%s"PATH_SEP"%s.o",config->build_to,sv.count > 0 ?  sv.data : filepath);
         if(knob_needs_rebuild1(out,filepath) || (knob_file_exists(config_file) && knob_needs_rebuild1(out,config_file))){
-            knob_cmd_append(&cmd,GET_COMPILER_NAME(config->compiler));
+            knob_cmd_append(&cmd,sb_cmp.items);
+            knob_cmd_append(&cmd,compiler_names[config->compiler][1]);
             if(config->debug_mode){
                 knob_cmd_append(&cmd, "-ggdb3");
             }
@@ -1737,6 +1758,7 @@ int knob_config_build(Knob_Config* config,Knob_File_Paths* outs,int debug){
 
 defer:
     knob_cmd_free(cmd);
+    knob_sb_free(sb_cmp);
     return result;
 }
 
