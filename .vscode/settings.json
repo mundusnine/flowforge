@@ -16,7 +16,10 @@
         "codecvt": "c",
         "xlocale": "c",
         "__locale": "c",
-        "knob.h": "c"
+        "knob.h": "c",
+        "string.h": "c",
+        "ui.h": "c",
+        "*.tcc": "cpp"
     },
     "cmake.configureOnOpen": false
 }

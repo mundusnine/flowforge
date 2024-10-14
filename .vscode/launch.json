@@ -6,9 +6,9 @@
     "configurations": [
       {
         "name": "(game) Launch",
-        "type": "cppvsdbg",
+        "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/Deployment/game.exe",
+        "program": "${workspaceFolder}/Deployment/FlowForge.com",
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceRoot}/Deployment",
@@ -16,9 +16,14 @@
       },
       {
         "name": "(knob) Launch",
-        "type": "cppvsdbg",
+        "type": "cppdbg",
         "request": "launch",
-        "program": "${workspaceFolder}/knob.exe",
+        "windows": {
+          "program": "${workspaceFolder}/knob.exe",
+        },
+        "linux": {
+          "program": "${workspaceFolder}/knob",
+        },
         "args": [],
         "stopAtEntry": false,
         "cwd": "${workspaceRoot}",

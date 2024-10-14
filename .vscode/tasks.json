@@ -6,19 +6,33 @@
         {
             "label": "Build knob",
             "type": "shell",
-            "command": "${workspaceFolder}/Tools/windows_x64/zig.exe",
-            "args": [
-                "cc",
-                "-std=c11",
-                "--debug",
-                "-fno-sanitize=undefined",
-                "-fno-omit-frame-pointer",
-                "-target",
-                "x86_64-windows",
-                "knob.c",
-                "-o",
-                "knob.exe"
-            ],
+            "windows" : {
+                "command": "${workspaceFolder}/Tools/windows_x64/zig.exe",
+                "args": [
+                    "cc",
+                    "-std=c11",
+                    "--debug",
+                    "-fno-sanitize=undefined",
+                    "-fno-omit-frame-pointer",
+                    "-target",
+                    "x86_64-windows",
+                    "knob.c",
+                    "-o",
+                    "knob.exe"
+                ],
+            },
+            "linux": {
+                "command": "gcc",
+                "args": [
+                    "-std=c11",
+                    "-ggdb3",
+                    "-fno-sanitize=undefined",
+                    "-fno-omit-frame-pointer",
+                    "knob.c",
+                    "-o",
+                    "knob"
+                ],
+            },
             "group": {
                 "kind": "build",
                 "isDefault": true
@@ -27,7 +41,12 @@
         {
             "label": "Build game",
             "type": "shell",
-            "command": "${workspaceFolder}/knob.exe",//"${workspaceFolder}/Tools/windows_x64/zig.exe",
+            "windows":{
+                "command": "${workspaceFolder}/knob.exe",
+            },
+            "linux":{
+                "command": "${workspaceFolder}/knob",
+            },
             "dependsOn": "Build knob",
         }
     ]
