@@ -2,3 +2,7 @@ build
 knob
 *.pdb
 *.exe
+tags
+Deployment/**
+!Deployment/assets
+!Deployment/assets/**
