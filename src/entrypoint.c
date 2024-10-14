@@ -7,6 +7,8 @@
 
 void raylib_start(void){
     InitWindow(960,540,"FlowForge");
+    Image icon = LoadImage("assets/icons/icon.png");
+    SetWindowIcon(icon);
     int width  = (int)(GetMonitorWidth(GetCurrentMonitor())* 0.75f);
     int height = (int)(GetMonitorHeight(GetCurrentMonitor()) * 0.75f);
     SetWindowPosition(GetMonitorWidth(GetCurrentMonitor()) * 0.5f - width * 0.5f,GetMonitorHeight(GetCurrentMonitor()) * 0.5f - height * 0.5f);
